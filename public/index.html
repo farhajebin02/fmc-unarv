@@ -17,12 +17,12 @@
 <style>
 /* Layout: phone-first single column (max 520px) — sticky top bar with progress, one question group per screen, sticky bottom action bar */
 :root{
-  --bg:#DDEFF8; --field:#F5F8FA; --surface:#FFFFFF; --surface-2:#E6F6FD; --fg:#414042; --muted:#6D6E71;
+  --bg:#F5F7FA; --field:#F7F9FB; --surface:#FFFFFF; --surface-2:#EAF6FD; --fg:#414042; --muted:#6D6E71;
   --brand:#1F74BD; --brand-2:#2A9AD9; --brand-fg:#FFFFFF; --sky:#40C5F4; --accent:#1F74BD; --accent-soft:#E6F6FD;
-  --line:#D3DEE6; --card-line:#C9E3F1; --danger:#C62828; --bar:rgba(255,255,255,.94); --green:#25A366;
+  --line:#DDE3E9; --card-line:#E3E8EE; --danger:#C62828; --bar:rgba(255,255,255,.96); --green:#25A366;
   --hero:linear-gradient(140deg,#155E9F 0%,#1F74BD 45%,#35B4EC 100%);
   --cta:linear-gradient(135deg,#1F74BD 0%,#2A9AD9 60%,#40C5F4 100%);
-  --shadow:0 6px 20px rgba(31,116,189,.12); --shadow-lg:0 14px 34px rgba(31,116,189,.22);
+  --shadow:0 1px 3px rgba(16,24,40,.06),0 2px 8px rgba(16,24,40,.04); --shadow-lg:0 8px 24px rgba(31,116,189,.18);
   --f-ml:'Noto Sans Malayalam','Nirmala UI','Kartika',sans-serif;
   --f-ui:'Helvetica Neue',Helvetica,Arial,'Noto Sans Malayalam',sans-serif;
 }
@@ -42,8 +42,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-ml);font-size:17px;line-height:1.6;margin:0;min-height:100vh;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0;
-  background-image:radial-gradient(circle at 100% 0%,rgba(64,197,244,.28) 0,transparent 38%),radial-gradient(circle at 0% 60%,rgba(31,116,189,.12) 0,transparent 42%);background-attachment:fixed}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar);z-index:20}
 .app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
 h1,h2,h3{text-wrap:balance;margin:0;line-height:1.35}
