@@ -40,9 +40,10 @@ Open `public/index.html`, find the `CONFIG` block near the bottom and replace:
 SCRIPT_URL: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',  // ← Web app URL from step 1
 ```
 
-The fee is not collected on the website. After submitting, the thank-you screen has a
-WhatsApp button that opens a chat to `WHATSAPP_NUMBER` with the person's name and phone
-filled in; you send them the payment details there.
+The fee is not collected on the website. After submitting, the thank-you screen asks the
+person to pay ₹700 to `WHATSAPP_DISPLAY` (GPay / PhonePe) and has a WhatsApp button that
+opens a chat to `WHATSAPP_NUMBER` with their name and phone filled in, so they can send
+the payment screenshot.
 
 ## 3. Push to GitHub
 
@@ -81,7 +82,7 @@ and nothing is saved.
 
 - Each row has two checkboxes at the end: **ഫീസ് ലഭിച്ചു ✓** (fee received)
   and **ഗ്രൂപ്പിൽ ചേർത്തു ✓** (added to WhatsApp group).
-- Payment is handled on WhatsApp. Tick **ഫീസ് ലഭിച്ചു ✓** once you receive the fee.
+- Payment goes to +91 90483 84956 and the screenshot arrives on WhatsApp. Tick **ഫീസ് ലഭിച്ചു ✓** once you receive the fee.
 - BMI is calculated automatically from height and weight.
 
 ## Privacy

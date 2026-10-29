@@ -179,6 +179,9 @@ textarea.in{min-height:110px;resize:vertical;font-size:17px}
 .next p{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.5}
 .next p i{font-style:normal;width:26px;height:26px;flex:none;border-radius:50%;background:var(--brand);color:#fff;font-family:var(--f-ui);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
 .wa{font-family:var(--f-ui);font-weight:800;font-size:22px;color:var(--brand);user-select:all}
+.pay{width:100%;background:var(--surface-2);border:1px solid var(--card-line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pay small{font-size:14px;font-weight:600;color:var(--muted)}
+.copy{appearance:none;cursor:pointer;min-height:40px;padding:6px 16px;border-radius:999px;border:1px solid var(--brand);background:var(--surface);color:var(--brand);font-size:14px;font-weight:600}
 .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .confetti i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;opacity:0}
 @media (prefers-reduced-motion:no-preference){
@@ -311,7 +314,7 @@ const STEPS = [
     {k:'expectation', t:'textarea', l:'ഈ പ്രോഗ്രാമിൽ നിന്ന് എന്ത് പ്രതീക്ഷിക്കുന്നു?'},
     {k:'doctor_note', t:'textarea', l:'ഡോക്ടറോട് പറയാനുള്ളത് / ചോദ്യങ്ങൾ'}
   ]},
-  { icon:'✅', title:'സമ്മതം', sub:'അവസാന ഘട്ടം', note:'രജിസ്ട്രേഷൻ സമർപ്പിച്ച ശേഷം, ₹700 ഫീസ് അടയ്ക്കാനുള്ള വിവരങ്ങൾ WhatsApp വഴി ലഭിക്കും.', fields:[
+  { icon:'✅', title:'സമ്മതം', sub:'അവസാന ഘട്ടം', note:`രജിസ്ട്രേഷൻ സമർപ്പിച്ച ശേഷം, ₹${CONFIG.FEE} ഫീസ് ${CONFIG.WHATSAPP_DISPLAY} എന്ന നമ്പറിലേക്ക് അടച്ച്, സ്ക്രീൻഷോട്ട് WhatsApp-ൽ അയയ്ക്കുക.`, fields:[
     {k:'consent', t:'consent', req:1, l:'ഞാൻ നൽകിയ വിവരങ്ങൾ ശരിയാണ്. ഈ വിവരങ്ങൾ രഹസ്യമായി സൂക്ഷിക്കുമെന്നും പ്രോഗ്രാമിന്റെയും ഡോക്ടർ കൺസൾട്ടേഷന്റെയും ആവശ്യത്തിന് മാത്രമേ ഉപയോഗിക്കൂ എന്നും ഞാൻ മനസ്സിലാക്കുന്നു. ഈ പ്രോഗ്രാം വൈദ്യചികിത്സയ്ക്ക് പകരമല്ല; ഡോക്ടറുടെ നിർദേശമില്ലാതെ മരുന്നുകൾ നിർത്തുകയോ മാറ്റുകയോ ചെയ്യില്ല.'}
   ]}
 ];
@@ -369,7 +372,8 @@ function renderIntro() {
     <p class="sec-t">ചേരുന്നത് എങ്ങനെ?</p>
     <div class="how card"><ol>
       <li>ഈ ഫോം പൂരിപ്പിക്കുക (ഏകദേശം 5 മിനിറ്റ്)</li>
-      <li>WhatsApp വഴി ഫീസ് അടയ്ക്കുക</li>
+      <li>₹${CONFIG.FEE} ഫീസ് ${esc(CONFIG.WHATSAPP_DISPLAY)} എന്ന നമ്പറിലേക്ക് GPay / PhonePe വഴി അടയ്ക്കുക</li>
+      <li>പണമടച്ചതിന്റെ സ്ക്രീൻഷോട്ട് WhatsApp-ൽ അയയ്ക്കുക</li>
       <li>പ്രോഗ്രാം ഗ്രൂപ്പിൽ ചേരാം</li>
     </ol></div>
     <div class="fee card"><span>പ്രോഗ്രാം ഫീസ്</span><b>₹${CONFIG.FEE}</b></div>
@@ -523,7 +527,7 @@ async function submit() {
 }
 
 function waLink() {
-  const t = 'ഉണർവ് രജിസ്ട്രേഷൻ\nപേര്: ' + (data.name || '') + '\nഫോൺ: ' + (data.phone || '') + '\nരജിസ്ട്രേഷൻ പൂർത്തിയാക്കി. ₹700 ഫീസ് അടയ്ക്കാനുള്ള വിവരങ്ങൾ അയയ്ക്കാമോ?';
+  const t = 'ഉണർവ് രജിസ്ട്രേഷൻ\nപേര്: ' + (data.name || '') + '\nഫോൺ: ' + (data.phone || '') + '\nരജിസ്ട്രേഷൻ പൂർത്തിയാക്കി. ₹' + CONFIG.FEE + ' ഫീസ് അടച്ചു — സ്ക്രീൻഷോട്ട് ഇതോടൊപ്പം അയയ്ക്കുന്നു.';
   return 'https://wa.me/' + CONFIG.WHATSAPP_NUMBER + '?text=' + encodeURIComponent(t);
 }
 
@@ -535,16 +539,24 @@ function renderDone() {
     <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
     <h2 tabindex="-1" id="done-title">നന്ദി${data.name ? ', <span>' + esc(data.name) + '</span>' : ''}!<br>രജിസ്ട്രേഷൻ ലഭിച്ചു</h2>
     ${previewOnly ? '<p class="notice">പ്രിവ്യൂ മാത്രം — വിവരങ്ങൾ എവിടെയും സേവ് ചെയ്തിട്ടില്ല.</p>' : ''}
+    <div class="pay">
+      <small>₹${CONFIG.FEE} ഫീസ് അടയ്ക്കേണ്ട നമ്പർ (GPay / PhonePe)</small>
+      <div class="wa">${esc(CONFIG.WHATSAPP_DISPLAY)}</div>
+      <button type="button" class="copy" id="copy">നമ്പർ കോപ്പി ചെയ്യാം</button>
+    </div>
     <div class="next">
-      <p><i>1</i><span>താഴെയുള്ള ബട്ടൺ അമർത്തി WhatsApp-ൽ മെസ്സേജ് അയയ്ക്കുക</span></p>
-      <p><i>2</i><span>₹${CONFIG.FEE} ഫീസ് അടയ്ക്കാനുള്ള വിവരങ്ങൾ മറുപടിയായി ലഭിക്കും</span></p>
+      <p><i>1</i><span>₹${CONFIG.FEE} ഫീസ് മുകളിലുള്ള നമ്പറിലേക്ക് അടയ്ക്കുക</span></p>
+      <p><i>2</i><span>പണമടച്ചതിന്റെ സ്ക്രീൻഷോട്ട് താഴെയുള്ള ബട്ടൺ അമർത്തി WhatsApp-ൽ അയയ്ക്കുക</span></p>
       <p><i>3</i><span>ഫീസ് ലഭിച്ച ശേഷം നിങ്ങളെ പ്രോഗ്രാം ഗ്രൂപ്പിലേക്ക് ചേർക്കും</span></p>
     </div>
-    <a class="btn btn-wa" href="${waLink()}" target="_blank" rel="noopener">${ICON.chat} WhatsApp-ൽ മെസ്സേജ് അയയ്ക്കാം</a>
-    <p style="color:var(--muted);font-size:14px">WhatsApp നമ്പർ</p>
-    <div class="wa">${esc(CONFIG.WHATSAPP_DISPLAY)}</div>
+    <a class="btn btn-wa" href="${waLink()}" target="_blank" rel="noopener">${ICON.chat} സ്ക്രീൻഷോട്ട് അയയ്ക്കാം</a>
   </div>`;
   setBar('');
+  $('#copy').onclick = () => {
+    const btn = $('#copy'), num = CONFIG.WHATSAPP_NUMBER.replace(/^91/, '');
+    if (!navigator.clipboard) { btn.textContent = num; return; }
+    navigator.clipboard.writeText(num).then(() => { btn.textContent = 'കോപ്പി ചെയ്തു'; }, () => { btn.textContent = num; });
+  };
 }
 
 function render() {
